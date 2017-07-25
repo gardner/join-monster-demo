@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:7
 
 ENV HOME=/home/node
 WORKDIR $HOME/app/

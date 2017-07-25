@@ -27,6 +27,7 @@ if ('mysql2' == process.env.JM_DB) {
   knexCfg.useNullAsDefault = true
 }
 
+console.log('Using database config: ', knexCfg)
 // knex is a convenient library that can connect to various SQL databases
 // you can use any library you wish
 export default require('knex')(knexCfg)
