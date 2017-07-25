@@ -11,7 +11,7 @@ import User from './User'
 import { nodeField } from './Node'
 import dbCall from '../data/fetch'
 
-const options = { dialect: 'pg' }
+const options = { dialect: 'mysql' }
 
 export default new GraphQLObjectType({
   description: 'global query object',
@@ -35,8 +35,8 @@ export default new GraphQLObjectType({
         if (args.id) return `${usersTable}.id = ${args.id}`
       },
       resolve: (parent, args, context, resolveInfo) => {
-        if (knex.client.config.client !== 'pg') {
-          throw new Error('This schema requires PostgreSQL. A data dump is provided in /data.')
+        if ((knex.client.config.client !== 'mysql2') && (knex.client.config.client !== 'pg')) {
+          throw new Error('This schema requires a pg or mysql2. A data dump is provided in /data.')
         }
         return joinMonster(resolveInfo, context, sql => dbCall(sql, knex, context), options)
       }

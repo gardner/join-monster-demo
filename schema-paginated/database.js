@@ -1,13 +1,32 @@
 import path from 'path'
 
 const dataFilePath = path.join(__dirname, '../data/demo-data.sl3')
-const pgUrl = process.env.DATABASE_URL
-const connection = pgUrl || { filename: dataFilePath }
+
+const knexCfg = { 
+  client: 'sqlite3',
+  connection: {
+    filename: dataFilePath 
+  },
+  useNullAsDefault: true
+}
+
+if ('pg' == process.env.JM_DB) {
+  knexCfg.client = 'pg'
+  knexCfg.connection = process.env.DATABASE_URL
+  knexCfg.useNullAsDefault = true
+}
+
+if ('mysql2' == process.env.JM_DB) {
+  knexCfg.client = 'mysql2'
+  knexCfg.connection = {
+    host : 'mysql',
+    user : 'root',
+    password : 'joinMonster',
+    database : 'join_monster'
+  }
+  knexCfg.useNullAsDefault = true
+}
 
 // knex is a convenient library that can connect to various SQL databases
 // you can use any library you wish
-export default require('knex')({
-  client: pgUrl ? 'pg' : 'sqlite3',
-  connection,
-  useNullAsDefault: true
-})
+export default require('knex')(knexCfg)
