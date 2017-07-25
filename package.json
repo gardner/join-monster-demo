@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node server.js"
+    "start": "nodemon --exec npm run babel-node",
+    "babel-node": "babel-node server.js"
   },
   "engines": {
     "node": ">=6.0.0"
@@ -47,5 +48,8 @@
     "koa-static": "^3.0.0",
     "pg": "^6.1.0",
     "sqlite3": "^3.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
