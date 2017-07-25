@@ -1,0 +1,21 @@
+version: '3'
+services:
+
+  postgres:
+    image: postgres:9.6.3
+    volumes:
+      - "./data/paginated-demo-dump.sql:/docker-entrypoint-initdb.d/paginated-demo-dump.sql"
+
+  monster:
+    build: ./
+    volumes:
+      - "./:/home/node/app/"
+      - /home/node/app/node_modules
+    environment:
+      NODE_ENV: development
+      DEBUG: join-monster
+      DATABASE_URL: postgres://postgres:postgres@postgres/postgres
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
